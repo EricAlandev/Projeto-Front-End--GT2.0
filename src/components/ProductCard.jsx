@@ -26,15 +26,15 @@ const ProductCard = ({ product }) => {
         <div className="flex items-center gap-2">
           {priceDiscount ? (
             <>
-              <span className="text-[#1F1F1F] font-bold text-[24px]">
+              <span className="text-[#1F1F1F] font-bold text-[20px] md:text-[24px]">
                 R$ {priceDiscount.toFixed(2)}
               </span>
-              <span className="line-through text-[#8F8F8F] text-[24px]">
+              <span className="line-through text-[#8F8F8F] text-[20px] md:text-[24px]">
                 R$ {price.toFixed(2)}
               </span>
             </>
           ) : (
-            <span className="text-[#1F1F1F] font-bold text-[24px]">
+            <span className="text-[#1F1F1F] font-bold text-[20px] md:text-[24px]">
               R$ {price.toFixed(2)}
             </span>
           )}

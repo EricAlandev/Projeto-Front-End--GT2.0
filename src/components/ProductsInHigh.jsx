@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Section from './Section';
 import ProductListing from '../components/ProductListing';
 
+// Featured Collections (Cards fixos)
 const FeaturedCollections = () => {
   const featuredProducts = [
     {
@@ -23,19 +24,24 @@ const FeaturedCollections = () => {
   ];
 
   return (
-    <Section title={<h2 className='font-[700] text-[#474747] mt-[40px] mb-[10px] ml-[55px]'>Coleções em destaque</h2>}>
-      <div className="flex flex-wrap justify-center gap-8 mt-8 px-4">
+    <Section
+      title={
+        <h2 className='font-[700] text-[#474747] mt-[40px] mb-[10px] ml-[55px]'>
+          Coleções em destaque
+        </h2>
+      }
+    >
+      <div className="flex flex-wrap md:flex-nowrap justify-center gap-8 mt-8 px-4">
         {featuredProducts.map((product, index) => (
           <div
             key={index}
-            className="group relative bg-[#E7F6F6] rounded-[16px] w-[580px] h-[300px] flex items-center p-6 hover:scale-[1.02] transition-transform shadow-lg overflow-hidden"
+            className="group relative bg-[#E7F6F6] rounded-[16px] w-full md:w-[30%] h-[240px] flex items-center p-6 hover:scale-[1.02] transition-transform shadow-lg overflow-hidden"
           >
-            {/* Texto */}
             <div className="flex flex-col justify-between h-full z-10 w-[50%] pr-4">
               <div className="bg-[#E7FF86] px-4 py-2 rounded-md text-[16px] font-bold font-[Inter] text-[#333] w-fit">
                 {product.discount}
               </div>
-              <h3 className="text-[36px] font-bold font-[Inter] text-[#1F1F1F] leading-tight">
+              <h3 className="text-[28px] font-bold font-[Inter] text-[#1F1F1F] leading-tight">
                 {product.title.split('\n').map((line, i) => (
                   <React.Fragment key={i}>
                     {line}
@@ -43,14 +49,10 @@ const FeaturedCollections = () => {
                   </React.Fragment>
                 ))}
               </h3>
-              
-              {/* Botão sobreposto */}
               <Link
                 to="/colecao"
-                className="bg-white px-6 py-2 rounded-md text-[#D81B60] font-bold text-[16px] border border-[#e0e0e0] hover:bg-[#ffe6f0] transition w-fit 
-                z-20 relative ml-[-20px]"
+                className="bg-white px-6 py-2 rounded-md text-[#D81B60] font-bold text-[16px] border border-[#e0e0e0] hover:bg-[#ffe6f0] transition w-fit z-20 relative"
                 style={{
-                  marginLeft: '0px',
                   marginTop: '-10px',
                   boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
                 }}
@@ -58,16 +60,12 @@ const FeaturedCollections = () => {
                 Comprar
               </Link>
             </div>
-
-            {/* Imagem ajustada */}
             <div className="absolute right-0 top-0 h-full w-[60%] flex items-center justify-end">
               <img
                 src={product.image}
                 alt={product.title}
-                className="h-full w-auto max-h-[320px] object-contain object-right"
-                style={{ 
-                  marginRight: '-10px'
-                }}
+                className="h-full w-auto max-h-[240px] object-contain object-right"
+                style={{ marginRight: '-10px' }}
               />
             </div>
           </div>
@@ -77,122 +75,139 @@ const FeaturedCollections = () => {
   );
 };
 
+
+// FeaturedCollections2 (Slider arrastável horizontal)
 const FeaturedCollections2 = () => {
+  const sliderRef = useRef(null);
 
-  return(
-    <div className='flex flex-col justify-center'>
+  let isDown = false;
+  let startX;
+  let scrollLeft;
 
-    <h2 className='font-[Inter] font-[700 text-[28px] text-[#474747] flex justify-center mt-[20px] mb-[20px]'>Coleções em Destaque</h2>
-    <img src="/assets/GroupCoolections.png" alt="Group of All the COlections" className='w-[750px] ml-[580px]'  />
+  const handleMouseDown = (e) => {
+    isDown = true;
+    startX = e.pageX - sliderRef.current.offsetLeft;
+    scrollLeft = sliderRef.current.scrollLeft;
+  };
+
+  const handleMouseLeave = () => {
+    isDown = false;
+  };
+
+  const handleMouseUp = () => {
+    isDown = false;
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - sliderRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    sliderRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  return (
+    <div className="flex flex-col justify-center mt-15">
+      <h2 className="font-Inter font-bold text-2xl text-[#474747] mb-6 text-center">
+        Coleções em Destaque
+      </h2>
+
+      <div
+        ref={sliderRef}
+        className="flex overflow-x-auto cursor-grab select-none md:justify-center"
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        style={{
+          gap: '20px',
+          padding: '0 20px',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
+      >
+        <img
+          src="/assets/GroupCoolections.png"
+          alt="Group of All the Collections"
+          className="max-w-[750px] min-w-[750px] object-contain rounded-lg"
+          style={{ userSelect: 'none' }}
+          draggable={false}
+        />
+      </div>
     </div>
-  )
-}
+  );
+};
 
+
+// Produtos em Alta (Grid responsivo)
 const ProdutosEmAlta = () => {
   const produtos = [
-    {
-      id: "1",
-      name: "K-Swiss V8 - Masculino",
-      image: "/assets/SpatatoK-swiss.png",
-      price: 200,
-      priceDiscount: 149.9,
-    },
-    {
-      id: "2",
-      name: "Nike Air Max - Feminino",
-      image: "/assets/AirMax.png",
-      price: 350,
-      priceDiscount: 299.9,
-    },
-    {
-      id: "3",
-      name: "Adidas UltraBoost - Unissex",
-      image: "/assets/Ultraboost.png",
-      price: 400,
-      priceDiscount: 350,
-    },
-    {
-      id: "4",
-      name: "Air Jordan - Collector Edition",
-      image: "/assets/AirJordanCollector.png",
-      price: 320,
-      priceDiscount: 270,
-    },
-    {
-      id: "5",
-      name: "Nike Air Max - Masculino",
-      image: "/assets/SneakerBranco.png",
-      price: 1500,
-      priceDiscount: 1300,
-    },
-    {
-      id: "3",
-      name: "Adidas UltraBoost - Unissex",
-      image: "/assets/Ultraboost.png",
-      price: 400,
-      priceDiscount: 350,
-    },
-    {
-      id: "2",
-      name: "Nike Air Max - Feminino",
-      image: "/assets/AirMax.png",
-      price: 350,
-      priceDiscount: 299.9,
-    },
-    {
-      id: "1",
-      name: "K-Swiss V8 - Masculino",
-      image: "/assets/SpatatoK-swiss.png",
-      price: 139.9,
-    },
+    { id: "1", name: "K-Swiss V8 - Masculino", image: "/assets/SpatatoK-swiss.png", price: 200, priceDiscount: 149.9 },
+    { id: "2", name: "Nike Air Max - Feminino", image: "/assets/AirMax.png", price: 350, priceDiscount: 299.9 },
+    { id: "3", name: "Adidas UltraBoost - Unissex", image: "/assets/Ultraboost.png", price: 400, priceDiscount: 350 },
+    { id: "4", name: "Air Jordan - Collector Edition", image: "/assets/AirJordanCollector.png", price: 320, priceDiscount: 270 },
+    { id: "5", name: "Nike Air Max - Masculino", image: "/assets/SneakerBranco.png", price: 1500, priceDiscount: 1300 },
+    { id: "6", name: "Adidas UltraBoost - Unissex", image: "/assets/Ultraboost.png", price: 400, priceDiscount: 350 },
+    { id: "7", name: "Nike Air Max - Feminino", image: "/assets/AirMax.png", price: 350, priceDiscount: 299.9 },
+    { id: "8", name: "K-Swiss V8 - Masculino", image: "/assets/SpatatoK-swiss.png", price: 139.9, priceDiscount: 99.99 },
   ];
 
   return (
-    <div className="mt-28 ml-30 px-20">
-      <div className="flex justify-between items-center mb-12">
-        <h2 className="text-3xl text-[#474747] font-bold">Produtos em alta</h2>
-        <Link to={'/produtos'} className="text-[#C92071] text-[18px] hover:underline mr-[40px]">
+    <div className="mt-28 mr-[-20px] px-6 max-w-[1650px] mx-auto">
+      <div className="flex justify-between items-center mb-8 px-2">
+        <h2 className="text-3xl text-[#474747] font-bold">
+          Produtos em alta
+        </h2>
+        <Link
+          to={'/produtos'}
+          className="text-[#C92071] text-[18px] mr-[15px] hover:underline"
+        >
           Ver todos <span>→</span>
-        </Link> 
+        </Link>
       </div>
+
+      {/* Passa todos os produtos para um único ProductListing */}
       <ProductListing products={produtos} />
     </div>
   );
 };
 
-const EspecialOffert = () => {
 
-  return(
-    <div className='flex justify-center gap-30 mt-[70px] mb-[70px]'>
-
-      {/*Imagem da oferta especial */}
-      <divp>
-        {/*Imagem da bola atrás, pra dar o efeito estético especial */}
-        <img src="/assets/Ellipse.png" alt="" className='mt-[10px] ml-[90px]' />
-        <img src="/assets/AirJordanCollector.png" alt="photo of the sneaker" 
-        className='mt-[-390px] mb-[20px]' />
-      </divp>
-
-      {/*Descrição da oferta especial */}
-      <div className='flex flex-col'>
-        <h3 className='text-[#C92071] font-[700] text-[16px] 
-        mt-[20px] mb-[14px]
-        '>Oferta Especial</h3>
-        <h2 className='text-[#474747] text-[48px] font-[Inter] font-[700] 
-        leading-none
-        '>Air Jordan edição de <br /> colecionador</h2>
-
-        <p className='text-[18px] mt-[30px] mb-[10px]'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, magnam <br />deleniti! Excepturi consequatur saepe, amet quaerat officiis voluptatibus,  <br />animi qui, magnam deleniti sunt ullam incidunt adipisci non laboriosam dolor  <br />dignissimos!</p>
-
-        <button className='bg-[#C92071] text-white text-[18px]
-        mt-[20px]
-        w-[180px] px-2 py-1.5 rounded-[8px]
-        '>Ver oferta</button>
-      </div>
-
-     
+// Especial Offert (Banner com Ellipse)
+const EspecialOffert = () => (
+  <div className="flex flex-col md:flex-row items-center md:items-start mt-[70px]  mb-[70px] max-w-[1200px] mx-auto px-4">
+    <div className="relative w-[320px] h-[320px] md:w-[480px] md:h-[480px] flex-shrink-0">
+      <img
+        src="/assets/Ellipse.png"
+        alt="Ellipse"
+        className="absolute top-0 left-0 w-full h-full object-contain"
+      />
+      <img
+        src="/assets/AirJordanCollector.png"
+        alt="photo of the sneaker"
+        className="absolute top-0 left-0 w-full h-full object-contain"
+      />
     </div>
-  )
-}
 
-export {FeaturedCollections, FeaturedCollections2, ProdutosEmAlta, EspecialOffert};
+    {/* Aqui adiciona margem lateral somente no desktop */}
+    <div className="flex flex-col items-center md:items-start max-w-[600px] text-center md:text-left md:ml-[45px] mt-2 md:mt-0">
+      <h3 className="text-[#C92071] font-[700] text-[16px] mb-[14px]">
+        Oferta Especial
+      </h3>
+      <h2 className="text-[#474747] text-[48px] font-[Inter] font-[700] leading-none mb-6">
+        Air Jordan edição de <br /> colecionador
+      </h2>
+      <p className="text-[18px] mb-[10px]">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, magnam 
+        deleniti! Excepturi consequatur saepe,  amet quaerat officiis voluptatibus, 
+        animi qui, magnam deleniti sunt ullam incidunt adipisci non laboriosam dolor 
+        dignissimos!
+      </p>
+      <Link to={'/produtos'} className="bg-[#C92071] flex justify-center text-white text-[18px] mt-[20px] w-[180px] px-2 py-1.5 rounded-[8px]">
+        Ver oferta
+      </Link>
+    </div>
+  </div>
+);
+
+export { FeaturedCollections, FeaturedCollections2, ProdutosEmAlta, EspecialOffert };
