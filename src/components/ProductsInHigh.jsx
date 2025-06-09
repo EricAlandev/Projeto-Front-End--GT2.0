@@ -168,7 +168,9 @@ const ProdutosEmAlta = () => {
       </div>
 
       {/* Passa todos os produtos para um único ProductListing */}
-      <ProductListing products={produtos} />
+      <div className='ml-[20px] mr-[-23px]'>
+        <ProductListing products={produtos} />
+      </div>
     </div>
   );
 };

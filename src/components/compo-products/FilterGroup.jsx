@@ -4,7 +4,7 @@ const FilterGroup = ({ title, inputType = 'checkbox', options = [], name, onChan
   return (
     <div>
       <h3 className="text-xs font-semibold text-dark-gray-2 mb-2">{title}</h3>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 mb-3">
         {options.map((option) => {
           const id = `${name}-${option.value}`;
           const isChecked = selectedValues.includes(option.value);

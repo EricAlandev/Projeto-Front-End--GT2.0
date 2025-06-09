@@ -87,7 +87,7 @@ const Products = [
     reference: "URB0005",
     stars: 5.0,
     rating: 50,
-    description: "Balenciaga Triple S. Luxo e sofisticação.",
+    description: "Nike Air Max. Luxo , sofisticação e versatibilidade",
     images: [
       { src: "/assets/SneakerBranco.png" },
       { src: "/assets/SneakerBranco.png" },
