@@ -4,6 +4,7 @@ import Section from './Section';
 import ProductListing from '../components/ProductListing';
 
 // Featured Collections (Cards fixos)
+// FeaturedCollections (Cards fixos) - CORRIGIDO
 const FeaturedCollections = () => {
   const featuredProducts = [
     {
@@ -26,9 +27,9 @@ const FeaturedCollections = () => {
   return (
     <Section
       title={
-        <h2 className='font-[700] text-[#474747] mt-[40px] mb-[10px] ml-[55px]'>
+        <span className="font-[700] text-[#474747] mt-[40px] mb-[10px] ml-[75px] block">
           Coleções em destaque
-        </h2>
+        </span>
       }
     >
       <div className="flex flex-wrap md:flex-nowrap justify-center gap-8 mt-8 px-4">
@@ -153,14 +154,14 @@ const ProdutosEmAlta = () => {
   ];
 
   return (
-    <div className="mt-28 mr-[-20px] px-6 max-w-[1650px] mx-auto">
-      <div className="flex justify-between items-center mb-8 px-2">
-        <h2 className="text-3xl text-[#474747] font-bold">
+    <div className="mt-28 mb-25 px-6 max-w-[1650px] mx-auto">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 px-2 gap-3 md:gap-0">
+        <h2 className="text-3xl md:text-3xl text-[#474747] font-bold">
           Produtos em alta
         </h2>
         <Link
           to={'/produtos'}
-          className="text-[#C92071] text-[18px] mr-[15px] hover:underline"
+          className="text-[#C92071] text-[18px] mr-[10px] md:text-[18px] hover:underline"
         >
           Ver todos <span>→</span>
         </Link>
@@ -173,15 +174,18 @@ const ProdutosEmAlta = () => {
 };
 
 
+
 // Especial Offert (Banner com Ellipse)
 const EspecialOffert = () => (
   <div className="flex flex-col md:flex-row items-center md:items-start mt-[70px]  mb-[70px] max-w-[1200px] mx-auto px-4">
     <div className="relative w-[320px] h-[320px] md:w-[480px] md:h-[480px] flex-shrink-0">
+      {/*Imagem da ellipse (bola atrás do sapato para efeito estético) */}
       <img
         src="/assets/Ellipse.png"
         alt="Ellipse"
         className="absolute top-0 left-0 w-full h-full object-contain"
       />
+      {/*Imagem da ellipse (bola atrás do sapato para efeito estético) */}
       <img
         src="/assets/AirJordanCollector.png"
         alt="photo of the sneaker"
@@ -189,7 +193,7 @@ const EspecialOffert = () => (
       />
     </div>
 
-    {/* Aqui adiciona margem lateral somente no desktop */}
+    {/* Aqui adiciona margem lateral, somente no desktop */}
     <div className="flex flex-col items-center md:items-start max-w-[600px] text-center md:text-left md:ml-[45px] mt-2 md:mt-0">
       <h3 className="text-[#C92071] font-[700] text-[16px] mb-[14px]">
         Oferta Especial

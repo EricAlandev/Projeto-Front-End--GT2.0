@@ -16,7 +16,7 @@ const Header = () => {
         {/* BOTÃO MENU SANDUÍCHE */}
         <button
           onClick={() => setMenuOpen(true)}
-          className="flex flex-col justify-center gap-1.5 cursor-pointer"
+           className="flex flex-col justify-center gap-1.5 cursor-pointer mr-4"
           aria-label="Abrir menu"
         >
           <span className="block w-6 h-0.5 bg-black rounded"></span>

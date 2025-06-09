@@ -256,7 +256,7 @@ const ProductListingPage = () => {
         )}
 
         {/* Conteúdo da Página */}
-        <main className="flex-1 flex flex-col gap-4">
+        <main className="flex-1 flex flex-col gap-4 ml-5 md:ml-0">
           {/* Ordenação desktop */}
           <div className="hidden md:flex justify-end">
             <div className="flex items-center gap-2 mr-[40px] mb-[10px]">
