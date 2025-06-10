@@ -40,7 +40,9 @@ Além das páginas tem alguns arquivos avulsos. //Arquivos JSX// . Gallery. É o
 
 .ProductsInHigh Contém os paramêtros dentro da HomePage.
 
-1 - FeaturedCollections -> 3 quadrantes pondo coleções em destaque 2 - FeaturedCollections2 -> Oferta especial em destaque. Algo especial, como no caso é uma edição limitada que foi lançada. 3 - ProdutosEmAlta -> São os produtos em alta, produtos que venderam mais
+1 - FeaturedCollections -> 3 quadrantes pondo coleções em destaque |
+2 - FeaturedCollections2 -> Oferta especial em destaque. Algo especial, como no caso é uma edição limitada que foi lançada.
+3 - ProdutosEmAlta -> São os produtos em alta, produtos que venderam mais
 
 .Section.jsx é o esqueleto usado para renderizar os quadrantes do site de forma geral. Nele tem 1 - O tittle, sendo o título. 2- O TiitleAlign, que vem como padrão left entãos e você não utiliza-lo, dará como left, caso queirá, ele tem a opção de center 3 - link, caso queira por um link, ele deixará você modificar o href 4 - children, o conteúdo do bloco em si.
 
